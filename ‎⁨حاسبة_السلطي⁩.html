@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حاسبة السلطي - لخدمات التمويل وسداد القروض</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap');
+        
+        body {
+            font-family: 'Tajawal', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #0b0f19;
+            color: #f1f5f9;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Smooth UI enhancements */
+        .glass-card {
+            background: #151d2a;
+            border: 1px solid #233044;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+        }
+
+        .custom-input {
+            background-color: #0b0f19;
+            border: 1px solid #2a3a52;
+            color: #ffffff;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .custom-input:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25);
+        }
+
+        /* Deep Navy Elegant Button */
+        .btn-navy {
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+            border: 1px solid #3b82f6;
+            transition: all 0.25s ease;
+        }
+
+        .btn-navy:hover {
+            background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.35);
+        }
+
+        .btn-navy:active {
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-3 sm:p-6">
+
+    <div class="w-full max-w-md glass-card rounded-3xl p-5 sm:p-7 space-y-5 my-auto">
+        
+        <!-- Header Section -->
+        <div class="text-center pb-4 border-b border-slate-800">
+            <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-slate-900 border border-slate-700 text-3xl mb-2 shadow-inner">
+                💼
+            </div>
+            <h1 class="text-2xl sm:text-3xl font-black text-white tracking-wide">حاسبة السلطي</h1>
+            <p class="text-xs sm:text-sm text-slate-400 mt-1 font-medium">سداد الالتزامات واحتساب التمويل الشخصي</p>
+        </div>
+
+        <!-- Inputs Container -->
+        <div class="space-y-4">
+            
+            <!-- Primary Salary & Multiplier -->
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 mb-1.5">الراتب الأساسي (ر.س)</label>
+                    <input type="number" id="salary1" value="10000" placeholder="10000" class="w-full p-3 rounded-xl custom-input text-sm font-bold" oninput="calc()">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 mb-1.5">أضعاف الراتب</label>
+                    <input type="number" id="mult1" value="18" placeholder="18" class="w-full p-3 rounded-xl custom-input text-sm font-bold" oninput="calc()">
+                </div>
+            </div>
+
+            <!-- Secondary Salary Toggle -->
+            <div>
+                <label class="block text-xs font-bold text-slate-300 mb-1.5">هل يوجد راتب إضافي؟</label>
+                <select id="hasSalary2" class="w-full p-3 rounded-xl custom-input text-sm font-bold cursor-pointer" onchange="toggleSalary2()">
+                    <option value="no">لا يوجد</option>
+                    <option value="yes">نعم (إضافة راتب ثاني)</option>
+                </select>
+            </div>
+
+            <!-- Secondary Salary Section (Dynamic) -->
+            <div id="salary2Box" class="hidden p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-3">
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 mb-1">الراتب الثاني (ر.س)</label>
+                        <input type="number" id="salary2" value="0" placeholder="0" class="w-full p-2.5 rounded-xl custom-input text-sm font-bold" oninput="calc()">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 mb-1">أضعاف الراتب الثاني</label>
+                        <input type="number" id="mult2" value="2" placeholder="2" class="w-full p-2.5 rounded-xl custom-input text-sm font-bold" oninput="calc()">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Debts -->
+            <div>
+                <label class="block text-xs font-bold text-slate-300 mb-1.5">التزامات العميل (مبلغ السداد)</label>
+                <input type="number" id="debts" value="50000" placeholder="50000" class="w-full p-3 rounded-xl custom-input text-sm font-bold" oninput="calc()">
+            </div>
+
+            <!-- Office Commission -->
+            <div>
+                <label class="block text-xs font-bold text-slate-300 mb-1.5">نسبة عمولة المكتب (%)</label>
+                <input type="number" id="fee" value="5" placeholder="5" class="w-full p-3 rounded-xl custom-input text-sm font-bold" oninput="calc()">
+            </div>
+
+            <!-- Calculate Action Button -->
+            <button onclick="calc()" class="w-full py-3.5 px-4 btn-navy text-white font-extrabold text-base rounded-xl shadow-lg mt-2 flex items-center justify-center gap-2 cursor-pointer">
+                <span>حساب التقرير المالي</span>
+                <span class="text-lg">📊</span>
+            </button>
+        </div>
+
+        <!-- Financial Summary Results -->
+        <div class="bg-slate-950/80 p-4 sm:p-5 rounded-2xl border border-slate-800/80 space-y-3">
+            <div class="flex justify-between items-center text-xs sm:text-sm text-slate-300">
+                <span class="font-medium">تمويل الراتب الأول:</span>
+                <span class="font-bold text-white" id="resTotal1">0 ر.س</span>
+            </div>
+
+            <div id="rowTotal2" class="hidden flex justify-between items-center text-xs sm:text-sm text-slate-300">
+                <span class="font-medium">تمويل الراتب الثاني:</span>
+                <span class="font-bold text-white" id="resTotal2">0 ر.س</span>
+            </div>
+
+            <div class="flex justify-between items-center text-xs sm:text-sm text-slate-300">
+                <span class="font-medium">إجمالي التمويل الكامل:</span>
+                <span class="font-bold text-blue-400" id="resTotalAll">0 ر.س</span>
+            </div>
+
+            <div class="flex justify-between items-center text-xs sm:text-sm text-slate-300">
+                <span class="font-medium">سداد الالتزامات:</span>
+                <span class="font-bold text-red-400" id="resDebts">-0 ر.س</span>
+            </div>
+
+            <div class="flex justify-between items-center text-xs sm:text-sm text-slate-300">
+                <span class="font-medium">ربح المكتب:</span>
+                <span class="font-bold text-amber-400" id="resFee">-0 ر.س</span>
+            </div>
+
+            <div class="pt-3 border-t border-slate-800 flex justify-between items-center text-base sm:text-xl font-extrabold text-emerald-400">
+                <span>صافي العميل:</span>
+                <span id="resNet">0 ر.س</span>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function toggleSalary2() {
+            const has2 = document.getElementById('hasSalary2').value;
+            const box = document.getElementById('salary2Box');
+            const row2 = document.getElementById('rowTotal2');
+
+            if (has2 === 'yes') {
+                box.classList.remove('hidden');
+                row2.classList.remove('hidden');
+            } else {
+                box.classList.add('hidden');
+                row2.classList.add('hidden');
+                document.getElementById('salary2').value = 0;
+            }
+            calc();
+        }
+
+        function calc() {
+            const s1 = parseFloat(document.getElementById('salary1').value) || 0;
+            const m1 = parseFloat(document.getElementById('mult1').value) || 0;
+            
+            const has2 = document.getElementById('hasSalary2').value;
+            const s2 = (has2 === 'yes') ? (parseFloat(document.getElementById('salary2').value) || 0) : 0;
+            const m2 = (has2 === 'yes') ? (parseFloat(document.getElementById('salary2').value) || 0) : 0;
+
+            const d = parseFloat(document.getElementById('debts').value) || 0;
+            const fv = parseFloat(document.getElementById('fee').value) || 0;
+
+            const total1 = s1 * m1;
+            const total2 = s2 * m2;
+            const totalAll = total1 + total2;
+
+            const feeAmount = totalAll * (fv / 100);
+            const net = totalAll - d - feeAmount;
+
+            document.getElementById('resTotal1').innerText = total1.toLocaleString('ar-SA') + ' ر.س';
+            document.getElementById('resTotal2').innerText = total2.toLocaleString('ar-SA') + ' ر.س';
+            document.getElementById('resTotalAll').innerText = totalAll.toLocaleString('ar-SA') + ' ر.س';
+            document.getElementById('resDebts').innerText = '-' + d.toLocaleString('ar-SA') + ' ر.س';
+            document.getElementById('resFee').innerText = '-' + feeAmount.toLocaleString('ar-SA') + ' ر.س';
+            document.getElementById('resNet').innerText = net.toLocaleString('ar-SA') + ' ر.س';
+        }
+
+        // Initialize calculations on load
+        calc();
+    </script>
+</body>
+</html>
